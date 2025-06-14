@@ -1,60 +1,62 @@
-# Creating-a-Scalable-and-Available-Architecture
+![image](https://github.com/user-attachments/assets/850a15bb-22a5-46c6-a397-11ec22b0537e)![image](https://github.com/user-attachments/assets/f01581e8-fd2a-4942-a6dd-4176bc10b716)# Creating-a-Scalable-and-Available-Architecture
 
 ## 📝 Project Summary:
 This project involved designing and deploying a scalable and highly available web application architecture on AWS. The café's website was migrated to a robust architecture that spans multiple Availability Zones, ensuring fault tolerance, load balancing, and auto scaling. Key AWS services used included VPC, EC2, Auto Scaling, Load Balancer, NAT Gateway, Launch Templates, and Security Groups.
 
 ## 🛠️ Tasks and Implementation (with Screenshots)
-🔹 Task 1: Inspecting the Environment
+### Task 1: Inspecting the Environment
 Description:
-Reviewed the AWS environment to understand the existing VPC, subnets, and route tables before making changes.
+I reviewed the AWS environment to understand the existing VPC, subnets, and route tables before making changes.
 
-📸 Screenshot Placeholder:
-Screenshot 1.1 – VPC Overview
-Shows existing VPC with 2 public and 2 private subnets.
+VPC Overview 
+![VPC Overview](https://github.com/Mzajirow/Creating-a-Scalable-and-Available-Architecture/blob/main/VPC%20existing%20setup%201.png?raw=true)
 
-📸 Screenshot 1.2 – Route Table Configurations
-Highlights the default route table association and routes per subnet.
+Resource map showing the subnets and route tables connection
+![route table association](https://github.com/Mzajirow/Creating-a-Scalable-and-Available-Architecture/blob/main/VPC%20existing%20setup%202.png?raw=true)
 
-🔹 Task 2: Multi-AZ Network Update
-✅ 2.1 Created a NAT Gateway for AZ2
+### Task 2: Multi-AZ Network Update
+✅ 2.1 Created a NAT Gateway for the second availablility zone.
 Allocated Elastic IP and launched NAT Gateway in Public Subnet 2.
 
-📸 Screenshot 2.1 – NAT Gateway Setup
-Displays NAT Gateway in AZ2 with attached Elastic IP.
+NAT Gateway Setup
+![NAT Gateway](https://github.com/Mzajirow/Creating-a-Scalable-and-Available-Architecture/blob/main/NAT%20Gateway.png?raw=true)
 
 ✅ 2.2 Updated Route Table
 Configured Private Subnet 2 to route outbound traffic through the new NAT Gateway.
 
-📸 Screenshot 2.2 – Route Table Update
-Shows destination 0.0.0.0/0 route to new NAT Gateway.
+Route Table Update
+![Route Table Update](https://github.com/Mzajirow/Creating-a-Scalable-and-Available-Architecture/blob/main/NAT%20Gateway%20Configured.png?raw=true)
 
-🔹 Task 3: Launch Template Creation
-Configured AMI, instance type, key pair, IAM role, tags, and security group.
+### Task 3: Launch Template Creation
+In the process of creating a launch template, I configured the AMI, instance type, key pair, IAM role, tags, and security group.
 
-📸 Screenshot 3.1 – Launch Template Configuration
-Displays all settings: AMI ID, t2.micro instance type, key pair, IAM role, and user data (if applicable).
+Launch Template Configuration
+![Launch Template](https://github.com/Mzajirow/Creating-a-Scalable-and-Available-Architecture/blob/main/Launch%20template%20setup.png?raw=true)
 
-🔹 Task 4: Auto Scaling Group Configuration
-Created an ASG with desired capacity = 2, min = 2, max = 6.
+### Task 4: Auto Scaling Group Configuration
+Created an Autoscaling group with desired capacity = 2, minimum capacity = 2, maximum capacity = 6. Also configured a target tracking policy for CPU utilization at 25%.
 
-Configured a target tracking policy for CPU utilization at 25%.
-
-📸 Screenshot 4.1 – Auto Scaling Group Setup
+Auto Scaling Group Setup
 Shows subnets selected and scaling policy details.
+![ASG](https://github.com/Mzajirow/Creating-a-Scalable-and-Available-Architecture/blob/main/Auto%20Scaling%20Group%20Configured.png?raw=true)
 
-📸 Screenshot 4.2 – Running Instances from ASG
-Lists the two EC2 instances launched with tags webserver.
+Running Instances from ASG
+Shows the two EC2 instances launched with the resource tag - webserver.
+![ASG Instance](https://github.com/Mzajirow/Creating-a-Scalable-and-Available-Architecture/blob/main/New%20launched%20instances.png?raw=true)
 
 🔹 Task 5: Load Balancer Setup
-Created an Application Load Balancer (ALB) across Public Subnet 1 and 2.
-
-Configured listener on port 80 and registered target group.
+Created an Application Load Balancer (ALB) across Public Subnet 1 and 2. I also configured listener on port 80 and created a target group, which I assigned to the ALB. 
 
 📸 Screenshot 5.1 – Load Balancer Configuration
 Displays ALB settings and availability zones.
 
-📸 Screenshot 5.2 – Target Group & Health Check Setup
+![ALB Settings](https://github.com/Mzajirow/Creating-a-Scalable-and-Available-Architecture/blob/main/Load%20Balancer%20Configured.png?raw=true)
+
+Target Group & Health Check Setup
 Shows health check path /cafe and status of registered targets.
+
+![Target Group](https://github.com/Mzajirow/Creating-a-Scalable-and-Available-Architecture/blob/main/Target%20Group%20Configured.png?raw=true)
+
 
 📸 Screenshot 5.3 – Load Balancer DNS in Browser
 Verifies successful deployment by loading http://<ALB-DNS>/cafe.
